@@ -1,5 +1,7 @@
 # Trabajos de POO - Facultad
 
+Jenaro Galdini
+
 Repositorio para organizar todos los trabajos prácticos de Programación Orientada a Objetos.
 
 ## Estructura del proyecto
