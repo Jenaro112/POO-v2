@@ -2,7 +2,7 @@ package ar.edu.Facultad.tp7.ejercicio1;
 
 class App {
 
-    @SuppressWarnings("deprecation") // Se usa para suprimir advertencias de new Integer()
+    @SuppressWarnings({"deprecation", "UnnecessaryBoxing", "BoxedPrimitiveConstruction"}) // Se usa para suprimir advertencias de new Integer()
     public static void main(String[] args) {
         System.out.println("------------------------------------------");
         System.out.println("--- Iniciando pruebas de MatrizObjetos ---");
@@ -11,6 +11,7 @@ class App {
         // Prueba 1: Intentar crear una matriz con dimensiones inválidas (negativas)
         System.out.println("\n--- Prueba 1: Creando matriz con dimensiones inválidas (-2, 5) ---");
         try {
+            @SuppressWarnings("unused")
             MatrizObjetos matriz = new MatrizObjetos(3, 3);
         } catch (MatrizException e) {
             System.out.println("Excepción capturada correctamente: " + e);
@@ -40,7 +41,7 @@ class App {
         System.out.println("\n--- Prueba 4: Demostración de operación exitosa ---");
         try {
             MatrizObjetos matrizOk = new MatrizObjetos(2, 2);
-            matrizOk.SetRowCol(1, 1, new Integer(123));
+            matrizOk.SetRowCol(1, 1, Integer.valueOf(123));
             Object valor = matrizOk.GetRowCol(1, 1);
             System.out.println("Operación exitosa. Valor obtenido en [1,1]: " + valor);
         } catch (MatrizException e) {
