@@ -20,14 +20,28 @@ src/
 
 ## Compilación y ejecución
 
-Para compilar y ejecutar desde la raíz del proyecto:
-
+### En macOS/Linux:
 ```bash
 # Compilar
-javac -d . src/ar/edu/universidad/tp8/ejercicio1/*.java
+javac -d bin -cp src src/ar/edu/Facultad/tp3/ejercicios/Trabajo3.java
 
 # Ejecutar
-java ar.edu.universidad.tp8.ejercicio1.Main
+java -cp bin ar.edu.Facultad.tp3.ejercicios.Trabajo3
+
+# O usar el script
+./run-java-file.sh "src/ar/edu/Facultad/tp3/ejercicios/Trabajo3.java"
+```
+
+### En Windows:
+```cmd
+# Compilar
+javac -d bin -cp src "src\ar\edu\Facultad\tp3\ejercicios\Trabajo3.java"
+
+# Ejecutar
+java -cp bin ar.edu.Facultad.tp3.ejercicios.Trabajo3
+
+# O usar el script de Windows
+run-java-file.bat "src\ar\edu\Facultad\tp3\ejercicios\Trabajo3.java"
 ```
 
 ## Organización
