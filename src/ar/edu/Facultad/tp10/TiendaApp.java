@@ -1,5 +1,6 @@
 package ar.edu.Facultad.tp10;
 
+import ar.edu.Facultad.utils.MiLibreria;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,9 @@ public class TiendaApp {
         ProductoService servicio = new ProductoService(productos);
 
         // 3. Uso de los métodos del servicio para resolver las consignas
+
+        MiLibreria.limpiarConsola();
+        MiLibreria.printHeader("Trabajo Nro.10");
 
         System.out.println("--- Tarea 1: Productos de Electrónica ---");
         List<Producto> electronica = servicio.obtenerProductosPorCategoria("Electrónica");
