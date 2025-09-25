@@ -7,7 +7,7 @@ import java.io.IOException;
  * Librería personal de utilidades para los trabajos de la facultad
  * 
  * @author Jenaro Galdini
- * @version 1.0
+ * @version 2.0
  */
 public class MiLibreria {
 
@@ -46,8 +46,16 @@ public class MiLibreria {
      * Imprime un header bonito para los ejercicios
      */
     public static void printHeader(String titulo) {
-        System.out.println("=".repeat(50));
-        System.out.println("  " + NEGRITA + AMARILLO +  titulo.toUpperCase() + RESET);
+        int totalWidth = 50;
+        String tituloUpper = titulo.toUpperCase();
+        int paddingSize = (totalWidth - tituloUpper.length()) / 2;
+
+        // Asegurarse de que el padding no sea negativo si el título es muy largo
+        paddingSize = Math.max(0, paddingSize);
+
+        String padding = " ".repeat(paddingSize);
+        System.out.println("=".repeat(totalWidth));
+        System.out.println(padding + NEGRITA + AMARILLO + tituloUpper + RESET);
         System.out.println("=".repeat(50));
     }
     
