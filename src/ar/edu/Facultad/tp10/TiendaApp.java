@@ -29,35 +29,35 @@ public class TiendaApp {
         MiLibreria.limpiarConsola();
         MiLibreria.printHeader("Trabajo Nro.10");
 
-        System.out.println("--- Tarea 1: Productos de Electrónica ---");
+        System.out.println(MiLibreria.VERDE + "\nTarea 1: Productos de Electrónica" + MiLibreria.RESET);
         List<Producto> electronica = servicio.obtenerProductosPorCategoria("Electrónica");
         electronica.forEach(System.out::println);
 
-        System.out.println("\n--- Tarea 2: Producto más caro ---");
+        System.out.println(MiLibreria.VERDE + "\nTarea 2: Producto más caro" + MiLibreria.RESET);
         Optional<Producto> masCaro = servicio.encontrarProductoMasCaro();
         masCaro.ifPresent(p -> System.out.println("El producto más caro es: " + p));
 
-        System.out.println("\n--- Tarea 3: Nombres de productos con poco stock (< 10) ---");
+        System.out.println(MiLibreria.VERDE + "\nTarea 3: Nombres de productos con poco stock (< 10) ---" + MiLibreria.RESET);
         List<String> pocoStock = servicio.obtenerNombresProductosConPocoStock(10);
         System.out.println(pocoStock);
-        
-        System.out.println("\n--- Tarea 4: Productos ordenados por categoría y precio ---");
+
+        System.out.println(MiLibreria.VERDE + "\nTarea 4: Productos ordenados por categoría y precio ---" + MiLibreria.RESET);
         List<Producto> ordenados = servicio.ordenarProductosPorCategoriaYPrecio();
         ordenados.forEach(System.out::println);
 
-        System.out.println("\n--- Tarea 5: Productos agrupados por categoría ---");
+        System.out.println(MiLibreria.VERDE + "\nTarea 5: Productos agrupados por categoría ---" + MiLibreria.RESET);
         Map<String, List<Producto>> porCategoria = servicio.agruparProductosPorCategoria();
         porCategoria.forEach((cat, lista) -> System.out.println(cat + ": " + lista.size() + " productos"));
 
-        System.out.println("\n--- Tarea 6: Valor total del inventario ---");
+        System.out.println(MiLibreria.VERDE + "\nTarea 6: Valor total del inventario ---" + MiLibreria.RESET);
         double valorTotal = servicio.calcularValorTotalInventario();
         System.out.printf("El valor total del inventario es: $%.2f%n", valorTotal);
-        
-        System.out.println("\n--- Tarea 7: Productos ordenados por stock (asc) y nombre ---");
+
+        System.out.println(MiLibreria.VERDE + "\nTarea 7: Productos ordenados por stock (asc) y nombre ---" + MiLibreria.RESET);
         List<Producto> ordenadosPorStock = servicio.obtenerProductosOrdenadosPorStockYNombre();
         ordenadosPorStock.forEach(System.out::println);
-        
-        System.out.println("\n--- Tarea 8: Manejo avanzado de Optional ---");
+
+        System.out.println(MiLibreria.VERDE + "\nTarea 8: Manejo avanzado de Optional ---" + MiLibreria.RESET);
 
         // Escenario A: Búsqueda exitosa
         System.out.println("\nBuscando 'Laptop Gamer':");
