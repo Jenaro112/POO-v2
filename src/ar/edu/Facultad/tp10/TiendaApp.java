@@ -25,7 +25,6 @@ public class TiendaApp {
         ProductoService servicio = new ProductoService(productos);
 
         // 3. Uso de los métodos del servicio para resolver las consignas
-
         MiLibreria.limpiarConsola();
         MiLibreria.printHeader("Trabajo Nro.10");
 

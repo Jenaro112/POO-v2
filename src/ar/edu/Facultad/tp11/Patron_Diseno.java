@@ -1,19 +1,21 @@
 package ar.edu.Facultad.tp11;
 
 import ar.edu.Facultad.utils.MiLibreria;
+
 /**
- * Interfaz que define el contrato para un objeto.
- * En nuestro ejemplo, es un sistema de logging.
+ * Interfaz que define el contrato para un objeto. En nuestro ejemplo, es un
+ * sistema de logging.
  */
 interface ILogger {
+
     void log(String message);
 }
 
 /**
- * Implementación real que realiza una acción.
- * Escribe el mensaje en la consola.
+ * Implementación real que realiza una acción. Escribe el mensaje en la consola.
  */
 class FileLogger implements ILogger {
+
     @Override
     public void log(String message) {
         System.out.println(MiLibreria.VERDE + "[-]  " + MiLibreria.ROJO + "[LOG REAL] (sin Null Object): " + MiLibreria.RESET + message);
@@ -22,11 +24,11 @@ class FileLogger implements ILogger {
 
 //* Implementar un Null Object para ILogger
 /**
- * Implementación del Patrón Null Object.
- * Implementa la misma interfaz, pero su método no hace nada.
- * Proporciona un comportamiento por defecto y seguro.
+ * Implementación del Patrón Null Object. Implementa la misma interfaz, pero su
+ * método no hace nada. Proporciona un comportamiento por defecto y seguro.
  */
 class NullLogger implements ILogger {
+
     @Override
     public void log(String message) {
         // No hace nada. Es un objeto "nulo" con comportamiento vacío.
@@ -34,10 +36,11 @@ class NullLogger implements ILogger {
 }
 
 /**
- * Clase cliente que utiliza un ILogger.
- * Gracias al patrón, esta clase no necesita comprobar si el logger es null.
+ * Clase cliente que utiliza un ILogger. Gracias al patrón, esta clase no
+ * necesita comprobar si el logger es null.
  */
 class Servicio {
+
     private final ILogger logger;
 
     // El constructor recibe una dependencia ILogger. Nunca será null.
@@ -68,11 +71,11 @@ class Servicio {
     }
 }
 
-
 public class Patron_Diseno {
+
     public static void main(String[] args) {
 
-        MiLibreria.printHeader("Patrón Null Object");
+        MiLibreria.printHeader("Patron Null Object");
         System.out.println(MiLibreria.CYAN + "\n--- Escenario 1: Usando el Logger Real ---" + MiLibreria.RESET);
         // Creamos el servicio con un logger que sí registra.
         ILogger loggerReal = new FileLogger();
