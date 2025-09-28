@@ -31,10 +31,12 @@ public class TiendaApp {
         System.out.println(MiLibreria.VERDE + "\nTarea 1: Productos de Electrónica" + MiLibreria.RESET);
         List<Producto> electronica = servicio.obtenerProductosPorCategoria("Electrónica");
         electronica.forEach(System.out::println);
+        MiLibreria.imprimirListaEnTabla(electronica);
 
         System.out.println(MiLibreria.VERDE + "\nTarea 2: Producto más caro" + MiLibreria.RESET);
         Optional<Producto> masCaro = servicio.encontrarProductoMasCaro();
         masCaro.ifPresent(p -> System.out.println("El producto más caro es: " + p));
+        MiLibreria.imprimirObjetoEnTabla(masCaro.orElse(null));
 
         System.out.println(MiLibreria.VERDE + "\nTarea 3: Nombres de productos con poco stock (< 10) ---" + MiLibreria.RESET);
         List<String> pocoStock = servicio.obtenerNombresProductosConPocoStock(10);
@@ -43,10 +45,15 @@ public class TiendaApp {
         System.out.println(MiLibreria.VERDE + "\nTarea 4: Productos ordenados por categoría y precio ---" + MiLibreria.RESET);
         List<Producto> ordenados = servicio.ordenarProductosPorCategoriaYPrecio();
         ordenados.forEach(System.out::println);
+        MiLibreria.imprimirListaEnTabla(ordenados);
 
         System.out.println(MiLibreria.VERDE + "\nTarea 5: Productos agrupados por categoría ---" + MiLibreria.RESET);
         Map<String, List<Producto>> porCategoria = servicio.agruparProductosPorCategoria();
         porCategoria.forEach((cat, lista) -> System.out.println(cat + ": " + lista.size() + " productos"));
+        porCategoria.forEach((cat, lista) -> {
+            System.out.println("\nCategoría: " + cat);
+            MiLibreria.imprimirListaEnTabla(lista);
+        });
 
         System.out.println(MiLibreria.VERDE + "\nTarea 6: Valor total del inventario ---" + MiLibreria.RESET);
         double valorTotal = servicio.calcularValorTotalInventario();
@@ -55,6 +62,7 @@ public class TiendaApp {
         System.out.println(MiLibreria.VERDE + "\nTarea 7: Productos ordenados por stock (asc) y nombre ---" + MiLibreria.RESET);
         List<Producto> ordenadosPorStock = servicio.obtenerProductosOrdenadosPorStockYNombre();
         ordenadosPorStock.forEach(System.out::println);
+        MiLibreria.imprimirListaEnTabla(ordenadosPorStock);
 
         System.out.println(MiLibreria.VERDE + "\nTarea 8: Manejo avanzado de Optional ---" + MiLibreria.RESET);
 
