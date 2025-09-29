@@ -1,20 +1,15 @@
 package ar.edu.Facultad.tp11;
 
-import ar.edu.Facultad.utils.MiLibreria;
+import ar.edu.Facultad.utils.MiLibreria;        //es opcional, es para que se vea mas estetico :)
 
-/**
- * Interfaz que define el contrato para un objeto. En nuestro ejemplo, es un
- * sistema de logging.
- */
-interface ILogger {
+//* Para este Trabajo usamos loggers, que son clases que registran eventos o mensajes en un sistema.
+//* vamos a usar el patrón Null Object, que nos ayuda a evitar comprobaciones de null (nulas) repetitivas y propensas
+interface ILogger {     // Interfaz común para diferentes tipos de loggers
 
     void log(String message);
 }
 
-/**
- * Implementación real que realiza una acción. Escribe el mensaje en la consola.
- */
-class FileLogger implements ILogger {
+class FileLogger implements ILogger { //la clase FileLogger implementa ILogger y registra mensajes en un archivo.
 
     @Override
     public void log(String message) {
@@ -23,10 +18,6 @@ class FileLogger implements ILogger {
 }
 
 //* Implementar un Null Object para ILogger
-/**
- * Implementación del Patrón Null Object. Implementa la misma interfaz, pero su
- * método no hace nada. Proporciona un comportamiento por defecto y seguro.
- */
 class NullLogger implements ILogger {
 
     @Override
@@ -35,10 +26,6 @@ class NullLogger implements ILogger {
     }
 }
 
-/**
- * Clase cliente que utiliza un ILogger. Gracias al patrón, esta clase no
- * necesita comprobar si el logger es null.
- */
 class Servicio {
 
     private final ILogger logger;
@@ -56,7 +43,7 @@ class Servicio {
 
         // Comprobación de null obligatoria antes de usar el logger
         if (logger != null) {
-            logger.log(MiLibreria.VERDE + "La operación ha comenzado." + MiLibreria.RESET);
+            logger.log(MiLibreria.VERDE + "La operación ha comenzado." + MiLibreria.RESET); //si no uso el patron null object, debo hacer esta comprobacion
         }
 
         // ... Lógica de negocio ...
@@ -64,7 +51,7 @@ class Servicio {
 
         // De nuevo, se necesita otra comprobación. Este código es repetitivo y propenso a errores.
         if (logger != null) {
-            logger.log(MiLibreria.VERDE + "La operación ha finalizado con éxito." + MiLibreria.RESET);
+            logger.log(MiLibreria.VERDE + "La operación ha finalizado con éxito." + MiLibreria.RESET); //si no uso el patron null object, debo hacer esta comprobacion
         }
 
         System.out.println(MiLibreria.VERDE + "[-]  Operación completada." + MiLibreria.RESET);
@@ -95,7 +82,7 @@ public class Patron_Diseno {
 
         System.out.println(MiLibreria.CYAN + "--- Escenario 3: Sin patrón (usando null directamente) ---" + MiLibreria.RESET);
         // Creamos el servicio pasando null. El servicio debe estar preparado para manejarlo.
-        Servicio servicioConNull = new Servicio(null);
+        Servicio servicioConNull = new Servicio(null); //le pasamos null directamente
         servicioConNull.hacerAlgoImportante();
         System.out.println(MiLibreria.PURPURA + "(Observa que no se imprime ningún log, pero el programa no falla gracias a los 'if != null')" + MiLibreria.RESET);
     }
