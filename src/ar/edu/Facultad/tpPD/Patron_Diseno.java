@@ -1,4 +1,4 @@
-package ar.edu.Facultad.tp11;
+package ar.edu.Facultad.tpPD;
 
 import ar.edu.Facultad.utils.MiLibreria;        //es opcional, es para que se vea mas estetico :)
 
@@ -39,13 +39,14 @@ class Servicio {
     }
 
     public void hacerAlgoImportante() {
+
+        //* Supongamos un escenario donde se procesan datos y se muestran los logs de cada progreso, pero en el caso de que el valor del log sea null (vacio), el programa falla, algo que podemos evitar con el patron Null Object.
         System.out.println(MiLibreria.VERDE + "\n[-]  Iniciando una operación importante..." + MiLibreria.RESET);
 
         // Comprobación de null obligatoria antes de usar el logger
         if (logger != null) {
             logger.log(MiLibreria.VERDE + "La operación ha comenzado." + MiLibreria.RESET); //si no uso el patron null object, debo hacer esta comprobacion
         }
-
         // ... Lógica de negocio ...
         System.out.println(MiLibreria.VERDE + "[-]  Procesando datos..." + MiLibreria.RESET);
 
@@ -53,7 +54,6 @@ class Servicio {
         if (logger != null) {
             logger.log(MiLibreria.VERDE + "La operación ha finalizado con éxito." + MiLibreria.RESET); //si no uso el patron null object, debo hacer esta comprobacion
         }
-
         System.out.println(MiLibreria.VERDE + "[-]  Operación completada." + MiLibreria.RESET);
     }
 }
