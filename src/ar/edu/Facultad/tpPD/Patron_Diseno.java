@@ -1,89 +1,147 @@
 package ar.edu.Facultad.tpPD;
 
-import ar.edu.Facultad.utils.MiLibreria;        //es opcional, es para que se vea mas estetico :)
+import ar.edu.Facultad.utils.MiLibreria;
 
-//* Para este Trabajo usamos loggers, que son clases que registran eventos o mensajes en un sistema.
-//* vamos a usar el patrón Null Object, que nos ayuda a evitar comprobaciones de null (nulas) repetitivas y propensas
-interface ILogger {     // Interfaz común para diferentes tipos de loggers
+// =======================================================================================
+// EJEMPLO 1: SISTEMA DE CLIENTES Y PLANES DE FACTURACIÓN (Ejemplo solicitado)
+// =======================================================================================
+interface Plan {                            // Interfaz para los planes de facturación
 
-    void log(String message);
+    //Getters
+    String getLevel();                      // Método para obtener el nivel del plan
+
+    double getDiscountPercentage();         // Método para obtener el porcentaje de descuento
 }
 
-class FileLogger implements ILogger { //la clase FileLogger implementa ILogger y registra mensajes en un archivo.
+class BillingPlan implements Plan {         // Implementación concreta de un plan de facturación
+
+    private final String level;             // Nivel del plan (e.g., "Basic", "Premium")
+    private final double discount;          // Porcentaje de descuento
+
+    public BillingPlan(String level, double discount) {
+        this.level = level;
+        this.discount = discount;
+    }
+
+    @Override                               // Devuelve el nivel del plan
+    public String getLevel() {
+        return level;
+    }
+
+    @Override                               // Devuelve el porcentaje de descuento
+    public double getDiscountPercentage() {
+        return discount;
+    }
+}
+
+class NullPlan implements Plan {            // Implementación nula de un plan de facturación
+    // esto permite evitar chequeos nulos en el código cliente, agilisa 
 
     @Override
-    public void log(String message) {
-        System.out.println(MiLibreria.VERDE + "[-]  " + MiLibreria.ROJO + "[LOG REAL] (sin Null Object): " + MiLibreria.RESET + message);
+    public String getLevel() {              // Devuelve un valor por defecto para el nivel del plan
+        return "N/A";
     }
-}
-
-//* Implementar un Null Object para ILogger
-class NullLogger implements ILogger {
 
     @Override
-    public void log(String message) {
-        // No hace nada. Es un objeto "nulo" con comportamiento vacío.
+    public double getDiscountPercentage() { // Devuelve un valor por defecto para el porcentaje de descuento
+        return 0.0;
     }
 }
 
-class Servicio {
+abstract class Customer {                   // Clase abstracta para clientes
 
-    private final ILogger logger;
+    protected String name;                  // Nombre del cliente
 
-    // El constructor recibe una dependencia ILogger. Nunca será null.
-    public Servicio(ILogger logger) {
-        // Se asegura de que el logger nunca sea null internamente.
-        // Si se pasara null, se podría asignar un NullLogger por defecto,
-        // aunque lo ideal es que el creador del Servicio decida.
-        this.logger = logger;
+    public abstract boolean isNull();       // Método para verificar si es un cliente nulo
+
+    public abstract Plan getPlan();         // Método para obtener el plan de facturación del cliente
+
+    public String getName() {               // Getter para el nombre del cliente
+        return name;
+    }
+}
+
+class RealCustomer extends Customer {       // Implementación concreta de un cliente real
+
+    private final Plan plan;                // Plan de facturación asociado al cliente
+
+    public RealCustomer(String name) {      // Constructor que inicializa el nombre y el plan
+        this.name = name;
+        // En un caso real, el plan se cargaría de una base de datos.
+        // Aquí lo asignamos directamente para el ejemplo.
+        this.plan = new BillingPlan("Premium", 15.0);
     }
 
-    public void hacerAlgoImportante() {
+    @Override
+    public boolean isNull() {
+        return false;                       // Indica que este no es un cliente nulo
+    }
 
-        //* Supongamos un escenario donde se procesan datos y se muestran los logs de cada progreso, pero en el caso de que el valor del log sea null (vacio), el programa falla, algo que podemos evitar con el patron Null Object.
-        System.out.println(MiLibreria.VERDE + "\n[-]  Iniciando una operación importante..." + MiLibreria.RESET);
+    @Override
+    public Plan getPlan() {                 // Devuelve el plan de facturación del cliente
+        return plan;
+    }
+}
 
-        // Comprobación de null obligatoria antes de usar el logger
-        if (logger != null) {
-            logger.log(MiLibreria.VERDE + "La operación ha comenzado." + MiLibreria.RESET); //si no uso el patron null object, debo hacer esta comprobacion
+class NullCustomer extends Customer {       // Implementación nula de un cliente
+
+    public NullCustomer() {
+        this.name = "Invitado";             // Nombre por defecto para un cliente nulo
+    }
+
+    @Override
+    public boolean isNull() {               // Indica que este es un cliente nulo
+        return true;
+    }
+
+    @Override
+    public Plan getPlan() {                 // Devuelve un objeto nulo para su dependencia, propagando el patrón.
+        return new NullPlan();
+    }
+}
+
+class CustomerRepository {                  // Clase para el repositorio de clientes
+
+    public static Customer getCustomer(String name) {
+        // Simula la búsqueda de un cliente.
+        if ("Beto".equals(name)) {
+            return new RealCustomer(name);  //devuelve un cliente real si el nombre coincide
         }
-        // ... Lógica de negocio ...
-        System.out.println(MiLibreria.VERDE + "[-]  Procesando datos..." + MiLibreria.RESET);
-
-        // De nuevo, se necesita otra comprobación. Este código es repetitivo y propenso a errores.
-        if (logger != null) {
-            logger.log(MiLibreria.VERDE + "La operación ha finalizado con éxito." + MiLibreria.RESET); //si no uso el patron null object, debo hacer esta comprobacion
-        }
-        System.out.println(MiLibreria.VERDE + "[-]  Operación completada." + MiLibreria.RESET);
+        // En lugar de devolver null, devuelve el NullCustomer.
+        return new NullCustomer();          // devuelve un cliente nulo si no se encuentra
     }
 }
 
 public class Patron_Diseno {
 
     public static void main(String[] args) {
-
         MiLibreria.printHeader("Patron Null Object");
-        System.out.println(MiLibreria.CYAN + "\n--- Escenario 1: Usando el Logger Real ---" + MiLibreria.RESET);
-        // Creamos el servicio con un logger que sí registra.
-        ILogger loggerReal = new FileLogger();
-        Servicio servicioConLogging = new Servicio(loggerReal);
-        servicioConLogging.hacerAlgoImportante();
 
-        System.out.println("\n=============================================\n");
+        // Demostracion del ejemplo usando el patrón Null Object
+        System.out.println(MiLibreria.AMARILLO + "Ejemplo 1: Sistema de Clientes y Planes" + MiLibreria.RESET);
+        MiLibreria.printSeparator();
 
-        System.out.println(MiLibreria.CYAN + "--- Escenario 2: Usando el Null Object Logger ---" + MiLibreria.RESET);
-        // Creamos el servicio con un logger que no hace nada.
-        // En lugar de pasar `null`, pasamos una instancia segura.
-        ILogger loggerNulo = new NullLogger();
-        Servicio servicioSinLogging = new Servicio(loggerNulo);
-        servicioSinLogging.hacerAlgoImportante();
+        // Escenario A: Cliente existente
+        Customer customer1 = CustomerRepository.getCustomer("Beto");
+        processCustomer(customer1);
 
-        System.out.println("\n=============================================\n");
+        // Escenario B: Cliente no existente (o invitado)
+        Customer customer2 = CustomerRepository.getCustomer("Enrique");
+        processCustomer(customer2);
+    }
 
-        System.out.println(MiLibreria.CYAN + "--- Escenario 3: Sin patrón (usando null directamente) ---" + MiLibreria.RESET);
-        // Creamos el servicio pasando null. El servicio debe estar preparado para manejarlo.
-        Servicio servicioConNull = new Servicio(null); //le pasamos null directamente
-        servicioConNull.hacerAlgoImportante();
-        System.out.println(MiLibreria.PURPURA + "(Observa que no se imprime ningún log, pero el programa no falla gracias a los 'if != null')" + MiLibreria.RESET);
+    // Método para procesar y mostrar la información del cliente y su plan
+    public static void processCustomer(Customer customer) {
+        System.out.println("\nProcesando cliente: " + customer.getName());  // Muestra el nombre del cliente o "Guest" si es NullCustomer
+        Plan plan = customer.getPlan();                                     //llamamos al plan del cliente
+        double discount = plan.getDiscountPercentage();                     //llamamos al descuento del plan
+        double fullPrice = 200.0;                                           // Precio base del servicio
+        double finalPrice = fullPrice * (1 - discount / 100);               // Calcula el precio final aplicando el descuento
+
+        //imprime los detalles del cliente y su plan
+        System.out.println(" - ¿Es un cliente nulo?: " + (customer.isNull() ? "Sí" : "No"));                // Muestra si es NullCustomer
+        System.out.println(" - Nivel del Plan: " + plan.getLevel());                                        // Muestra "N/A" si es NullPlan
+        System.out.println(" - Descuento aplicado: " + discount + "%");                                     // Muestra el descuento    
+        System.out.println(" - Precio final del servicio: $" + String.format("%.2f", finalPrice));   // Muestra el precio final
     }
 }
