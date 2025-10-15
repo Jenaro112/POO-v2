@@ -2,9 +2,10 @@ package ar.edu.Facultad.tpPD;
 
 import ar.edu.Facultad.utils.MiLibreria;
 
-// =======================================================================================
-// EJEMPLO 1: SISTEMA DE CLIENTES Y PLANES DE FACTURACIÓN (Ejemplo solicitado)
-// =======================================================================================
+// *=======================================================================================
+// *                                Patrón Null Object
+// *=======================================================================================
+
 interface Plan {                            // Interfaz para los planes de facturación
 
     //Getters
@@ -131,7 +132,7 @@ public class Patron_Diseno {
     }
 
     // Método para procesar y mostrar la información del cliente y su plan
-    public static void processCustomer(Customer customer) {
+    public static void processCustomer(Customer customer) {                 // Recibe un objeto Customer (puede ser RealCustomer o NullCustomer)
         System.out.println("\nProcesando cliente: " + customer.getName());  // Muestra el nombre del cliente o "Guest" si es NullCustomer
         Plan plan = customer.getPlan();                                     //llamamos al plan del cliente
         double discount = plan.getDiscountPercentage();                     //llamamos al descuento del plan
