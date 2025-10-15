@@ -111,31 +111,12 @@ class CustomerRepository {                  // Clase para el repositorio de clie
         // En lugar de devolver null, devuelve el NullCustomer.
         return new NullCustomer();          // devuelve un cliente nulo si no se encuentra
     }
-}
 
-public class Patron_Diseno {
-
-    public static void main(String[] args) {
-        MiLibreria.printHeader("Patron Null Object");
-
-        // Demostracion del ejemplo usando el patrón Null Object
-        System.out.println(MiLibreria.AMARILLO + "Ejemplo 1: Sistema de Clientes y Planes" + MiLibreria.RESET);
-        MiLibreria.printSeparator();
-
-        // Escenario A: Cliente existente
-        Customer customer1 = CustomerRepository.getCustomer("Beto");
-        processCustomer(customer1);
-
-        // Escenario B: Cliente no existente (o invitado)
-        Customer customer2 = CustomerRepository.getCustomer("Enrique");
-        processCustomer(customer2);
-    }
-
-    // Método para procesar y mostrar la información del cliente y su plan
+        // Método para procesar y mostrar la información del cliente y su plan
     public static void processCustomer(Customer customer) {                 // Recibe un objeto Customer (puede ser RealCustomer o NullCustomer)
         System.out.println("\nProcesando cliente: " + customer.getName());  // Muestra el nombre del cliente o "Guest" si es NullCustomer
-        Plan plan = customer.getPlan();                                     //llamamos al plan del cliente
-        double discount = plan.getDiscountPercentage();                     //llamamos al descuento del plan
+        Plan plan = customer.getPlan();                                     // llamamos al plan del cliente
+        double discount = plan.getDiscountPercentage();                     // llamamos al descuento del plan
         double fullPrice = 200.0;                                           // Precio base del servicio
         double finalPrice = fullPrice * (1 - discount / 100);               // Calcula el precio final aplicando el descuento
 
@@ -144,5 +125,23 @@ public class Patron_Diseno {
         System.out.println(" - Nivel del Plan: " + plan.getLevel());                                        // Muestra "N/A" si es NullPlan
         System.out.println(" - Descuento aplicado: " + discount + "%");                                     // Muestra el descuento    
         System.out.println(" - Precio final del servicio: $" + String.format("%.2f", finalPrice));   // Muestra el precio final
+    }
+}
+
+public class Patron_Diseno {
+
+    public static void main(String[] args) {
+        MiLibreria.printHeader("Patron Null Object");
+
+        // Demostracion del ejemplo usando el patrón Null Object
+        System.out.println(MiLibreria.AMARILLO + "\nEjemplo 1: Sistema de Clientes y Planes" + MiLibreria.RESET);
+
+        // Escenario A: Cliente existente
+        Customer customer1 = CustomerRepository.getCustomer("Beto");
+        CustomerRepository.processCustomer(customer1);
+
+        // Escenario B: Cliente no existente (o invitado)
+        Customer customer2 = CustomerRepository.getCustomer("Enrique");
+        CustomerRepository.processCustomer(customer2);
     }
 }
